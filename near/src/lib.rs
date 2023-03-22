@@ -1,14 +1,19 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
+use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
+use near_sdk::near_bindgen;
+
+#[near_bindgen]
+#[derive(BorshDeserialize, BorshSerialize, Default)]
+pub struct Counter {
+    value: u64,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+#[near_bindgen]
+impl Counter {
+    pub fn increment(&mut self) {
+        self.value += 1;
+    }
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+    pub fn get_count(&self) -> u64 {
+        self.value
     }
 }
