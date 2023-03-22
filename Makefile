@@ -11,7 +11,8 @@ build:
 	@echo "Built Polygon Contracts.\n"
 
 	@echo "Building Solana Contracts..."
-	@cd solana && anchor build
+	@cd solana && anchor build && mkdir -p ./build && cp target/deploy/*.so \
+	./build/contract.so
 	@echo "Built Solana Contracts.\n"
 
 test: 

@@ -17,3 +17,24 @@ impl Counter {
         self.value
     }
 }
+
+#[cfg(all(test, not(target_arch = "wasm32")))]
+mod tests {
+    use super::*;
+    use near_sdk::test_utils::VMContextBuilder;
+    use near_sdk::{testing_env, VMContext};
+
+    fn get_context(is_view: bool) -> VMContext {
+        VMContextBuilder::new()
+            .signer_account_id("bob_near".parse().unwrap())
+            .is_view(is_view)
+            .build()
+    }
+
+    #[test]
+    fn my_test() {
+        let context = get_context(false);
+        testing_env!(context);
+        // ... Write test here
+    }
+}
