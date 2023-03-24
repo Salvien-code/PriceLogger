@@ -8,6 +8,12 @@ pub struct Counter {
     value: u64,
 }
 
+impl Default for Counter {
+    fn default() -> Self {
+        env::panic_str("Counter should be initialized before usage")
+    }
+}
+
 #[near_bindgen]
 impl Counter {
     /**
