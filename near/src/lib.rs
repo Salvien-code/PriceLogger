@@ -28,7 +28,7 @@ impl Counter {
     }
 
     /**
-     * Only the owner of the contract can call this method.
+     * Resets the counter to 0 and can only be called by the owner.
      */
     pub fn reset(&mut self) {
         assert!(
