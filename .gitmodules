@@ -1,0 +1,5 @@
+[submodule "polygon/lib/openzeppelin-contracts"]
+	path = polygon/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "lib/openzeppelin-contracts"]
+	branch = v4.8.2
