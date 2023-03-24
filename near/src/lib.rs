@@ -33,7 +33,7 @@ impl Counter {
     }
 
     /**
-     * Increment the counter by 1 and reset to 0 if it reaches 10.
+     * Increment the counter by 1 and reset to 0 if it exceeds 10.
      */
     pub fn increment(&mut self) {
         match self.value {
@@ -43,7 +43,7 @@ impl Counter {
     }
 
     /**
-     * Decrement the counter by 1 and reset to 10 if it reaches 0.
+     * Decrement the counter by 1 and reset to 10 if it goes below 0.
      */
     pub fn decrement(&mut self) {
         match self.value {
@@ -57,6 +57,13 @@ impl Counter {
      */
     pub fn get_count(&self) -> u64 {
         self.value
+    }
+
+    /**
+     * Get the owner of the contract.
+     */
+    pub fn get_owner_id(&self) -> &str {
+        self.owner_id.as_str()
     }
 }
 
@@ -73,6 +80,7 @@ mod tests {
         let mut builder = VMContextBuilder::new();
         builder
             .signer_account_id(precedessor_account_id.clone())
+            .predecessor_account_id(precedessor_account_id)
             .is_view(is_view);
 
         builder
@@ -80,9 +88,55 @@ mod tests {
 
     #[test]
     fn test_stores_owner() {
-        let context = get_context(accounts(1), false);
+        let context = get_context(accounts(2), false);
         testing_env!(context.build());
         let contract = Counter::new();
-        assert_eq!(contract.owner_id, accounts(1));
+        assert_eq!(contract.get_owner_id(), accounts(2).as_str());
+    }
+
+    #[test]
+    fn test_resets_after_10() {
+        let context = get_context(accounts(2), false);
+        testing_env!(context.build());
+        let mut contract = Counter::new();
+        for _ in 0..=10 {
+            contract.increment();
+        }
+        assert_eq!(contract.get_count(), 0);
+    }
+
+    #[test]
+    fn test_resets_after_0() {
+        let context = get_context(accounts(2), false);
+        testing_env!(context.build());
+        let mut contract = Counter::new();
+        contract.value = 10;
+        for _ in 0..=10 {
+            contract.decrement();
+        }
+        assert_eq!(contract.get_count(), 10);
+    }
+
+    #[test]
+    fn test_can_be_reset_by_owner() {
+        let context = get_context(accounts(2), false);
+        testing_env!(context.build());
+        let mut contract = Counter::new();
+        contract.increment();
+        contract.reset();
+        assert_eq!(contract.get_count(), 0);
+    }
+
+    #[test]
+    #[should_panic(expected = "Only owner can reset the counter.")]
+    fn test_can_not_be_reset_by_non_owner() {
+        let context = get_context(accounts(2), false);
+        testing_env!(context.build());
+        let mut contract = Counter::new();
+        contract.increment();
+
+        let context = get_context(accounts(3), false);
+        testing_env!(context.build());
+        contract.reset();
     }
 }
