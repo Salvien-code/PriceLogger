@@ -22,7 +22,7 @@ contract Counter is Ownable {
      * @dev Increment the counter by 1 and reset it to 0 if it exceeds 10.
      */
     function increment() public {
-        if (value <= 10) {
+        if (value < 10) {
             value++;
         } else {
             value = 0;
@@ -33,7 +33,7 @@ contract Counter is Ownable {
      * @dev Decrement the counter by 1 and reset it to 10 if it goes below 0.
      */
     function decrement() public {
-        if (value >= 0) {
+        if (value > 0) {
             value--;
         } else {
             value = 10;

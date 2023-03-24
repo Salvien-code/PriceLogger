@@ -101,7 +101,7 @@ mod tests {
     }
 
     #[test]
-    fn test_resets_after_10() {
+    fn test_can_not_be_above_10() {
         let context = get_context(accounts(2), false);
         testing_env!(context.build());
         let mut contract = Counter::new();
@@ -112,7 +112,7 @@ mod tests {
     }
 
     #[test]
-    fn test_resets_after_0() {
+    fn test_can_not_be_below_0() {
         let context = get_context(accounts(2), false);
         testing_env!(context.build());
         let mut contract = Counter::new();
