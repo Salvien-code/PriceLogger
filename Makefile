@@ -16,11 +16,11 @@ build:
 	@echo "Built Solana Contracts.\n"
 
 test: 
-	@echo "Testing NEAR Contracts..."
+	@echo "\nTesting NEAR Contracts..."
 	@cd near && cargo test -- --nocapture
 
-	@echo "Testing Polygon Contracts..."
+	@echo "\nTesting Polygon Contracts..."
 	@cd polygon && forge test
 
-	@echo "Testing Solana Contracts..."
+	@echo "\nTesting Solana Contracts..."
 	@cd solana && anchor test
