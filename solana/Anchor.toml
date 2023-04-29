@@ -1,14 +1,15 @@
 [features]
 seeds = false
 skip-lint = false
-[programs.localnet]
-solana = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+
+[programs.devnet]
+solana = "kMmjwkAfsWhh2m6mqkEgn3i4BdrTZFMow8UeTvLq25K"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "Devnet"
 wallet = "/home/simon/.config/solana/id.json"
 
 [scripts]
