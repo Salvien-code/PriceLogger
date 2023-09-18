@@ -23,6 +23,12 @@ pub mod solana {
         counter_account.count -= 1;
         Ok(())
     }
+
+    pub fn reset(ctx: Context<Reset>) -> Result<()> {
+        let counter_account = &mut ctx.accounts.counter_account;
+        counter_account.count = 0;
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
@@ -43,6 +49,12 @@ pub struct Increment<'info> {
 
 #[derive(Accounts)]
 pub struct Decrement<'info> {
+    #[account(mut)]
+    pub counter_account: Account<'info, CounterAccount>,
+}
+
+#[derive(Accounts)]
+pub struct Reset<'info> {
     #[account(mut)]
     pub counter_account: Account<'info, CounterAccount>,
 }
